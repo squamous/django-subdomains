@@ -7,6 +7,8 @@ except ImportError:
 from django.conf import settings
 from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse as simple_reverse
+from django.utils.functional import lazy
+from django.utils import six
 
 
 def current_site_domain():
@@ -61,6 +63,7 @@ def reverse(viewname, subdomain=None, scheme=None, args=None, kwargs=None,
         current_app=current_app)
     return urljoin(domain, path, scheme=scheme)
 
+reverse_lazy = lazy(reverse, six.text_type)
 
 #: :func:`reverse` bound to insecure (non-HTTPS) URLs scheme
 insecure_reverse = functools.partial(reverse, scheme='http')
